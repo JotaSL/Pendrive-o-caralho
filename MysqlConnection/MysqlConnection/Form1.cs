@@ -35,5 +35,12 @@ namespace MysqlConnection
             f3.MdiParent = this;
             f3.Show();
         }
+
+        private void presençaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form4 f4 = new Form4();
+            f4.MdiParent = this;
+            f4.Show();
+        }
     }
 }
