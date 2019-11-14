@@ -1,0 +1,10 @@
+﻿Sistema de Registro de presença completo(como o resto)
+	L Grid
+	L Registrar
+	L Alterar
+	L Novo
+	L Remover
+Relatorio de presença
+	L Visual
+	L Filtrar
+	L Registros

@@ -53,11 +53,16 @@ namespace MysqlConnection
                     MySqlConnection con = new
                     MySqlConnection(conexaoSQL);
                     con.Open();
-                    string sql = "INSERT INTO alunos(ra,nome,turma,foto) VALUES ({ra},'{nome}','{turma}','@foto')";
+                    string sql = "";
+                    if (grid_click)
+                        sql = "UPDATE alunos SET nome='{nome}',turma='{turma}',foto='@foto' WHERE ra = {ra}";
+                    else
+                        sql = "INSERT INTO alunos(ra,nome,turma,foto) VALUES ({ra},'{nome}','{turma}','@foto')";
+
                     sql = sql.Replace("{ra}", textBox1.Text);
                     sql = sql.Replace("{nome}", textBox2.Text);
                     sql = sql.Replace("{turma}", comboBox1.Text);
-
+                    
                     byte[] blobs = imagem;
                     MySqlParameter blob = new MySqlParameter("@foto", MySqlDbType.Blob, blobs.Length);
                     blob.Value = blobs;
@@ -127,27 +132,32 @@ namespace MysqlConnection
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int ra = int.Parse(listBox1.Items[listBox1.SelectedIndex].ToString().Split('/')[0]);
-            
-            try
+            if (listBox1.SelectedIndex != -1)
             {
-                MySqlConnection con = new
-                MySqlConnection(conexaoSQL);
-                con.Open();
+                int ra = int.Parse(listBox1.Items[listBox1.SelectedIndex].ToString().Split('/')[0]);
 
-                MySqlCommand busca_alunos = new MySqlCommand("SELECT * FROM alunos WHERE ra = "+ ra + " LIMIT 1", con);
-                MySqlDataReader ler_aluno = busca_alunos.ExecuteReader();
-                while (ler_aluno.Read())
+                try
                 {
-                    textBox1.Text = ler_aluno["ra"].ToString();
-                    textBox2.Text = ler_aluno["nome"].ToString();
-                    comboBox1.Text = ler_aluno["turma"].ToString();
-                    grid_click = true;
+                    MySqlConnection con = new
+                    MySqlConnection(conexaoSQL);
+                    con.Open();
+
+                    MySqlCommand busca_alunos = new MySqlCommand("SELECT * FROM alunos WHERE ra = " + ra + " LIMIT 1", con);
+                    MySqlDataReader ler_aluno = busca_alunos.ExecuteReader();
+                    while (ler_aluno.Read())
+                    {
+                        textBox1.ReadOnly = true;
+                        textBox1.Text = ler_aluno["ra"].ToString();
+                        textBox2.Text = ler_aluno["nome"].ToString();
+                        comboBox1.Text = ler_aluno["turma"].ToString();
+                        imagem = Encoding.ASCII.GetBytes(ler_aluno["foto"].ToString());
+                        grid_click = true;
+                    }
                 }
-            }
-            catch (Exception exp)
-            {
-                MessageBox.Show(exp.ToString());
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.ToString());
+                }
             }
         }
 
@@ -159,6 +169,61 @@ namespace MysqlConnection
             textBox2.Clear();
             imagem = null;
             pictureBox1.ImageLocation = null;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox1.Clear();
+            comboBox1.SelectedIndex = -1;
+            textBox2.Clear();
+            grid_click = false;
+            imagem = null;
+            pictureBox1.ImageLocation = null;
+            listBox1.SelectedIndex = -1;
+            textBox1.ReadOnly = false;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void removerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (grid_click)
+            {
+                try
+                {
+                    MySqlConnection con = new
+                    MySqlConnection(conexaoSQL);
+                    con.Open();
+                    string sql = "DELETE FROM alunos WHERE ra = {ra}";
+
+                    sql = sql.Replace("{ra}", textBox1.Text);
+
+                    MySqlCommand insere = new MySqlCommand(sql, con);
+
+                    insere.ExecuteNonQuery();
+
+                    MessageBox.Show("Registro removido com sucesso");
+                    con.Close();
+
+                    refreshList();
+
+                    textBox1.Clear();
+                    comboBox1.SelectedIndex = -1;
+                    textBox2.Clear();
+                    grid_click = false;
+                    imagem = null;
+                    pictureBox1.ImageLocation = null;
+                    listBox1.SelectedIndex = -1;
+                    textBox1.ReadOnly = false;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
         }
     }
 }
