@@ -63,21 +63,21 @@
             // alunoToolStripMenuItem
             // 
             this.alunoToolStripMenuItem.Name = "alunoToolStripMenuItem";
-            this.alunoToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.alunoToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.alunoToolStripMenuItem.Text = "Palestras";
             this.alunoToolStripMenuItem.Click += new System.EventHandler(this.alunoToolStripMenuItem_Click);
             // 
             // alunosToolStripMenuItem
             // 
             this.alunosToolStripMenuItem.Name = "alunosToolStripMenuItem";
-            this.alunosToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.alunosToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.alunosToolStripMenuItem.Text = "Alunos";
             this.alunosToolStripMenuItem.Click += new System.EventHandler(this.alunosToolStripMenuItem_Click);
             // 
             // presençaToolStripMenuItem
             // 
             this.presençaToolStripMenuItem.Name = "presençaToolStripMenuItem";
-            this.presençaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.presençaToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.presençaToolStripMenuItem.Text = "Presença";
             this.presençaToolStripMenuItem.Click += new System.EventHandler(this.presençaToolStripMenuItem_Click);
             // 
@@ -88,12 +88,14 @@
             this.relatóriosToolStripMenuItem.Name = "relatóriosToolStripMenuItem";
             this.relatóriosToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.relatóriosToolStripMenuItem.Text = "Relatórios";
+            this.relatóriosToolStripMenuItem.Click += new System.EventHandler(this.relatóriosToolStripMenuItem_Click);
             // 
             // prenseçaToolStripMenuItem
             // 
             this.prenseçaToolStripMenuItem.Name = "prenseçaToolStripMenuItem";
             this.prenseçaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.prenseçaToolStripMenuItem.Text = "Presença";
+            this.prenseçaToolStripMenuItem.Click += new System.EventHandler(this.prenseçaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -107,6 +109,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Conexão Banco De Dados";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -42,5 +42,22 @@ namespace MysqlConnection
             f4.MdiParent = this;
             f4.Show();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void relatóriosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void prenseçaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form5 f5 = new Form5();
+            f5.MdiParent = this;
+            f5.Show();
+        }
     }
 }
