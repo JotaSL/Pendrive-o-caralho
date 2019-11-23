@@ -44,6 +44,32 @@ namespace MysqlConnection
 
         private void button1_Click(object sender, EventArgs e)
         {
+            try
+            {
+                MySqlConnection con = new
+            MySqlConnection(conexaoSQL);
+                con.Open();
+                string sqlCom = "SELECT * FROM alunos WHERE ra = " + textBox1.Text;
+
+                MySqlCommand busca_palestras = new MySqlCommand(sqlCom, con);
+                MySqlDataReader ler_palestra = busca_palestras.ExecuteReader();
+                int c = 0;
+                while (ler_palestra.Read())
+                {
+                    c++;
+                }
+
+                if (c > 0)
+                {
+                    MessageBox.Show("Já tem um aluno cadastrado com esse RA!", "Erro!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
             string[] valores = (textBox1.Text + "," + comboBox1.Text + "," + textBox2.Text + "," + pictureBox1.ImageLocation).Split(',');
             string[] nomes = ("RA,Turma,Nome,Foto").Split(',');
             if (verificarCampos(valores, nomes))
@@ -147,6 +173,7 @@ namespace MysqlConnection
                     while (ler_aluno.Read())
                     {
                         textBox1.ReadOnly = true;
+                        button2.Enabled = false;
                         textBox1.Text = ler_aluno["ra"].ToString();
                         textBox2.Text = ler_aluno["nome"].ToString();
                         comboBox1.Text = ler_aluno["turma"].ToString();
@@ -181,6 +208,7 @@ namespace MysqlConnection
             pictureBox1.ImageLocation = null;
             listBox1.SelectedIndex = -1;
             textBox1.ReadOnly = false;
+            button2.Enabled = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -192,6 +220,35 @@ namespace MysqlConnection
         {
             if (grid_click)
             {
+
+                try
+                {
+                    MySqlConnection con = new
+                    MySqlConnection(conexaoSQL);
+                    con.Open();
+
+                    string sqlCom2 = "SELECT * FROM presenca WHERE ra = " + textBox1.Text ;
+                    MySqlCommand busca_palestras2 = new MySqlCommand(sqlCom2, con);
+                    MySqlDataReader ler_palestra2 = busca_palestras2.ExecuteReader();
+                    int c = 0;
+                    while (ler_palestra2.Read())
+                    {
+                        c++;
+                    }
+
+                    if (c > 0)
+                    {
+                        MessageBox.Show("Esse aluno já participou de uma palestra, então não pode ser excluido!", "Erro!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+
                 try
                 {
                     MySqlConnection con = new
@@ -218,6 +275,7 @@ namespace MysqlConnection
                     pictureBox1.ImageLocation = null;
                     listBox1.SelectedIndex = -1;
                     textBox1.ReadOnly = false;
+                    button2.Enabled = true;
                 }
                 catch (Exception ex)
                 {
